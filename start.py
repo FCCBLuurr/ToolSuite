@@ -1,7 +1,8 @@
 from PIL import ImageTk, Image
 import subprocess
 import tkinter as tk
-from tkinter import messagebox, filedialog
+from tkinter import messagebox
+from tkinter import filedialog
 from tkinter.ttk import Progressbar
 from threading import Thread
 import rename

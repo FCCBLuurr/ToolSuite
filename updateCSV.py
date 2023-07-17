@@ -9,7 +9,7 @@ class DataAnalyzer:
     
     # Build this function in pandas
     def csv_dataframe(self, csv_url):
-        self.df = pd.read_csv(csv_url)
+        self.df = pd.read_csv(csv_url, usecols=['ITEM ID', 'Photo Shoot? Y/N'] )
 
     def create_payload_array(self, payload_directory):
         payload_files = []
