@@ -1,7 +1,7 @@
 from PIL import ImageTk, Image
 import subprocess
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, filedialog
 from tkinter.ttk import Progressbar
 from threading import Thread
 import rename
@@ -62,7 +62,7 @@ class GCEApp:
         try:
             start_number = int(start_number)
 
-            folder_path = "C:/payload"  # Change to the folder containing images to rename
+            folder_path = filedialog.askdirectory()  # Change to the folder containing images to rename
             files = rename.get_file_list(folder_path)
             total_files = len(files)
 

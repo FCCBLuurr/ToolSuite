@@ -1,40 +1,39 @@
-import csv
+import pandas as pd
+import numpy as np
 import os
-import re
 
-class CSVProcessor:
-    def __init__(self, csv_file_path, directory_path, column_item_id):
-        self.csv_file_path = csv_file_path
-        self.directory_path = directory_path
-        self.column_item_id = column_item_id
+class DataAnalyzer:
+    def __init__(self):
+        self.df = None
+        self.payload_files = None
+    
+    # Build this function in pandas
+    def csv_dataframe(self, csv_url):
+        self.df = pd.read_csv(csv_url)
 
-    def get_csv_item_ids(self):
-        csv_item_ids = []
-        with open(self.csv_file_path, "r") as file:
-            reader = csv.reader(file)
-            next(reader)  # Skip the header row
-            for row in reader:
-                item_id = row[self.column_item_id - 1]  # Adjust for 0-based indexing
-                csv_item_ids.append(item_id)
-        return csv_item_ids
+    def create_payload_array(self, payload_directory):
+        payload_files = []
+        for filename in os.listdir(payload_directory):
+            clean_filename = filename.replace('GCE#', '').replace('_1', '').replace('_2', '')
+            payload_files.append(clean_filename)
 
-    def get_file_item_ids(self):
-        file_item_ids = []
-        for filename in os.listdir(self.directory_path):
-            file_item = re.findall(r"GCE#(\d+)_\d+", filename)
-            if file_item:
-                file_item_ids.append(file_item[0])
-        file_item_ids = list(set(file_item_ids))  # Remove duplicates
-        return file_item_ids
+        self.payload_files = np.unique(payload_files)
 
-# Usage example
-csv_file_path = "C:/launchPad"  # Replace with the actual path to your CSV file
-directory_path = "C:/payload"  # Replace with the actual directory path
-column_item_id = 4
+class DataModifier:
+    def __init__(self):
+        self.placeholder = None
+    
+    def compare_dfs(self, csv_data, payload_data):
+        pass
 
-processor = CSVProcessor(csv_file_path, directory_path, column_item_id)
-csv_item_ids = processor.get_csv_item_ids()
-file_item_ids = processor.get_file_item_ids()
+# Example usage:
+analyzer = DataAnalyzer()
 
-print("CSV Item IDs:", csv_item_ids)
-print("File Item IDs:", file_item_ids)
+# Create the DataFrame from a CSV accessed via URL
+csv_url = "https://example.com/data.csv"
+csv_data = analyzer.csv_dataframe(csv_url)
+
+
+# Create the Payload array
+payload_directory = "C:/Payload"
+payload_data = analyzer.create_payload_array(payload_directory)
